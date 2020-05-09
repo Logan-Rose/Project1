@@ -4,8 +4,9 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 class App extends React.Component {
   constructor(props){
     super(props)
+    this.start = {min: 5, sec: 20}
     this.state = {
-      time: {min:5, sec:20}
+      time: {min: this.start.min, sec:this.start.sec}
     }
   }
   time(){
@@ -30,11 +31,19 @@ class App extends React.Component {
   }
 
   countDown(){
+    clearInterval(this.timer)
     this.timer = setInterval(()=> this.decrement(), 1000 )
   }
 
   pause(){
     clearInterval(this.timer)
+  }
+  reset(){
+    clearInterval(this.timer)
+    this.setState({time: {
+      min: this.start.min,
+      sec: this.start.sec
+    }})
   }
 
   render(){
@@ -45,7 +54,7 @@ class App extends React.Component {
         <View style={styles.buttons}>
           <Button onPress= {() => this.countDown()} style = {styles.button} title="Play"/>
           <Button onPress= {() => this.pause()} style = {styles.button} title="Pause"/>
-          <Button style = {styles.button} title="Reset"/>
+          <Button onPress= {() => this.reset()} style = {styles.button} title="Reset"/>
         </View>
       </View>
     );
