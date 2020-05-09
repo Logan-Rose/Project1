@@ -1,12 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, Vibration } from 'react-native';
 
 class App extends React.Component {
   constructor(props){
     super(props)
-    this.start = {min: 5, sec: 20}
+    this.start = [
+      {min: 0, sec: 10},
+      {min: 0, sec: 30}
+    ]
+    this.cycle = 0
     this.state = {
-      time: {min: this.start.min, sec:this.start.sec}
+      time: {min: this.start[0].min, sec:this.start[0].sec}
     }
   }
   time(){
@@ -18,7 +22,13 @@ class App extends React.Component {
   }
   
   decrement(){
-    if(this.state.time.sec === 0){
+    if(this.state.time.sec === 0 && this.state.time.min === 0){
+      clearInterval(this.timer)
+      Vibration.vibrate(1500)
+      this.count = this.count+1
+      this.reset()
+      this.countDown()
+    }else if(this.state.time.sec === 0){
       this.setState({time: {
         min: this.state.time.min - 1, 
         sec: 59
@@ -40,10 +50,17 @@ class App extends React.Component {
   }
   reset(){
     clearInterval(this.timer)
-    this.setState({time: {
-      min: this.start.min,
-      sec: this.start.sec
-    }})
+    if(this.cycle % 2 == 1){
+      this.setState({time: {
+        min: this.start[1].min,
+        sec: this.start[1].sec
+      }})
+    }else {      
+      this.setState({time: {
+      min: this.start[0].min,
+      sec: this.start[0].sec
+      }})
+    }
   }
 
   render(){
