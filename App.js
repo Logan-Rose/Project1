@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Vibration } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 class App extends React.Component {
   constructor(props){
@@ -19,6 +20,9 @@ class App extends React.Component {
     }else{
       return this.state.time.min + ":" + this.state.time.sec
     }
+  }
+  picktime(){
+    let x = showMode('time');
   }
   
   decrement(){
@@ -69,9 +73,13 @@ class App extends React.Component {
       <View style={styles.container}>
         <Text style = {styles.timer}>{this.time()}</Text>
         <View style={styles.buttons}>
-          <Button onPress= {() => this.countDown()} style = {styles.button} title="Play"/>
-          <Button onPress= {() => this.pause()} style = {styles.button} title="Pause"/>
-          <Button onPress= {() => this.reset()} style = {styles.button} title="Reset"/>
+          <Button onPress= {() => this.countDown()} title="Play"/>
+          <Button onPress= {() => this.pause()} title="Pause"/>
+          <Button onPress= {() => this.reset()} title="Reset"/>
+        </View>
+        <View style={styles.setTimes}>
+          <Button title="Set Work Time"/>
+          <Button title="Set Break Time"/>
         </View>
       </View>
     );
@@ -86,14 +94,9 @@ class Timer{
   }
 
 }
-
-
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -101,11 +104,10 @@ const styles = StyleSheet.create({
     fontSize:40
   },
   buttons:{
-    backgroundColor: 'red',
     flexDirection:'row'
   },
-  button :{
-
+  setTimes:{
+    padding:25
   }
 });
 
